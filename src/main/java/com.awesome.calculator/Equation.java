@@ -19,7 +19,7 @@ import static java.util.function.Function.identity;
 
 /**
  * Equation parser utility.
- * <p>The calculator supports operationsorders (e.g. multiply and divide will have priority over add and subtract).
+ * <p>The calculator supports operations orders (e.g. multiply and divide will have priority over add and subtract).
  * This is done using a weight parameter. By default, the instance comes with support for basic operators +, -, * and /.
  * The weight for add and subtract is set to 50, the one for multiply and divide is set to 100.
  * </p>
