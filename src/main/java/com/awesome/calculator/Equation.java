@@ -14,7 +14,8 @@ public class Equation {
 
   private final Map<String, Operand<Float>> operands = ImmutableMap.of(
       "add", (a, b) -> a + b,
-      "minus", (a, b) -> a - b
+      "minus", (a, b) -> a - b,
+      "multiply", (a, b) -> a * b
   );
 
   private final List<Operation> operations = new ArrayList<>();
@@ -33,6 +34,10 @@ public class Equation {
 
   public Equation minus(float number) {
     return addOperation(number, operands.get("minus"));
+  }
+
+  public Equation multiply(float number) {
+    return addOperation(number, operands.get("multiply"));
   }
 
   public Equation addOperation(float number, Operand<Float> operand) {

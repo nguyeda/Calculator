@@ -42,7 +42,6 @@ class EquationSpec extends Specification {
     1  | 2  | -1
     1  | -2 | 3
     -1 | -2 | 1
-    //1.1 | 2.2 | 3.3
   }
 
   def "chain substract numbers"() {
@@ -50,4 +49,22 @@ class EquationSpec extends Specification {
     Equation.of(15).minus(2).minus(3).minus(4).eq() == 6
   }
 
+  @Unroll
+  def "multiply two numbers: #a * #b = #expected"() {
+    expect:
+    Equation.of(a).multiply(b).eq() == expected
+
+    where:
+    a  | b  | expected
+    0  | 0  | 0
+    3  | 0  | 0
+    3  | 1  | 3
+    3  | -2 | -6
+    -2 | -3 | 6
+  }
+
+  def "chain multiply numbers"() {
+    expect:
+    Equation.of(3).multiply(2).multiply(4).multiply(10).eq() == 240
+  }
 }
