@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class Calculator {
   public static void main(String... args) {
-    Equation instance = new Equation()
+    EquationParser instance = new EquationParser()
         // register a synonym for the multiplication
         .registerOperator(new Operator("x", (a, b) -> a * b), 100);
 
     Scanner terminalInput = new Scanner(System.in);
     while (true) {
-      System.out.println("Enter an equation (exit to terminate)");
+      System.out.println("Enter an equation (exit to terminate):");
       String equationString = terminalInput.nextLine();
       if ("exit".equals(equationString)) {
         break;

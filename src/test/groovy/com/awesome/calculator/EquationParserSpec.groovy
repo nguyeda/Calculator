@@ -3,12 +3,12 @@ package com.awesome.calculator
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class EquationSpec extends Specification {
+class EquationParserSpec extends Specification {
 
   @Unroll
   def "default operators: #equation = #expected"() {
     expect:
-    new Equation().calculate(equation) == expected
+    new EquationParser().calculate(equation) == expected
 
     where:
     equation            | expected
@@ -47,7 +47,7 @@ class EquationSpec extends Specification {
     def operator = new Operator('modulo', { a, b -> a % b })
 
     expect:
-    new Equation()
+    new EquationParser()
         .registerOperator(operator, 100)
         .calculate(equation) == expected
 
@@ -59,14 +59,14 @@ class EquationSpec extends Specification {
 
   def "clean all operators"() {
     expect:
-    new Equation()
+    new EquationParser()
         .clearOperators()
         .calculate('1') == 1
   }
 
   def "throws an exception when equation is not valid"() {
     given:
-    def equation = new Equation()
+    def equation = new EquationParser()
     def equationString = '1 + 2 unknownOp 9 - 1'
 
     when: 'a calculation is made with an unknown operator'
