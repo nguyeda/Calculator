@@ -5,6 +5,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
@@ -20,6 +21,7 @@ repositories {
 }
 
 dependencies {
+  compile('com.google.guava:guava:20.0')
 
   testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
   testCompile('org.codehaus.groovy:groovy-all:2.4.7')
