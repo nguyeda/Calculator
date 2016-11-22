@@ -16,6 +16,16 @@ import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
 
+/**
+ * Equation parser utility.
+ * <p>The calculator supports operationsorders (e.g. multiply and divide will have priority over add and subtract).
+ * This is done using a weight parameter. By default, the instance comes with support for basic operators +, -, * and /.
+ * The weight for add and subtract is set to 50, the one for multiply and divide is set to 100.
+ * </p>
+ * <p>
+ * <p>It's possible to clear existing operators and/or add more using the
+ * {@link Equation#registerOperator(Operator, int)} function.</p>
+ */
 public class Equation {
   private Multimap<Integer, Operator> operatorsByWeight = LinkedListMultimap.create();
 
@@ -29,8 +39,8 @@ public class Equation {
   /**
    * Adds a new operator.
    *
-   * @param operator
-   * @param weight   defines the operator priority, heavier operators get computed first.
+   * @param operator an operator instance containing the sign and the function to apply
+   * @param weight   defines the operator priority, heavier operators get computed first
    * @return the current {@link Equation} instance
    */
   public Equation registerOperator(Operator operator, int weight) {
