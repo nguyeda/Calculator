@@ -1,7 +1,7 @@
 package com.awesome.calculator;
 
 @FunctionalInterface
-public interface Operand<R> {
+public interface UnaryOperator<R> {
 
-  R apply(R a, R b);
+  R apply(R a);
 }

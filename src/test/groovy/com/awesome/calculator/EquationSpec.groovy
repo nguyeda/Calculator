@@ -98,4 +98,9 @@ class EquationSpec extends Specification {
     expect:
     new Equation(17).operation(6, { a, b -> a % b }).eq() == 5
   }
+
+  def "custom operator: negate"() {
+    expect:
+    new Equation(6).operation({ a -> -a }).eq() == -6;
+  }
 }

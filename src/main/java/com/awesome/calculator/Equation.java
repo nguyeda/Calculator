@@ -79,15 +79,25 @@ public class Equation {
   }
 
   /**
-   * Registers a new custom operation.
+   * Registers a new custom operation using a binary operator.
    *
    * @param number the next number to use in the operation
-   * @param operand the operation to execute
+   * @param operator the operation to execute
    * @return the current {@link Equation} instance
    */
-  public Equation operation(double number, Operand<Double> operand) {
-    checkNotNull(operand);
-    operations.add(new Operation(number, operand));
+  public Equation operation(double number, BinaryOperator<Double> operator) {
+    operations.add(new Operation(number, operator));
+    return this;
+  }
+
+  /**
+   * Registers a new custom operation using a unary operator.
+   *
+   * @param operator the operation to execute
+   * @return the current {@link Equation} instance
+   */
+  public Equation operation(UnaryOperator<Double> operator) {
+    operations.add(new Operation(operator));
     return this;
   }
 
@@ -95,7 +105,7 @@ public class Equation {
    * Computes the equation result.
    *
    * This will process all operations in their registration order. The result of each operation will be used as the
-   * first parameter in the method {@link Operand#apply(Object, Object)}.
+   * first parameter in the method {@link BinaryOperator#apply(Object, Object)}.
    *
    * Note that the {@see <a href="https://en.wikipedia.org/wiki/Order_of_operations">order of operations</a>}
    * is not supported at this stage
@@ -119,16 +129,30 @@ public class Equation {
   }
 
   class Operation {
-    private double number = 0;
-    private Operand<Double> operand;
+    private final Double number;
+    private final BinaryOperator<Double> binaryOperator;
+    private final UnaryOperator<Double> unaryOperator;
 
-    public Operation(double number, Operand<Double> operand) {
+    Operation(double number, BinaryOperator<Double> operator) {
+      checkNotNull(operator);
       this.number = number;
-      this.operand = operand;
+      this.unaryOperator = null;
+      this.binaryOperator = operator;
     }
 
-    public double eq(double a) {
-      return operand.apply(a, number);
+    Operation(UnaryOperator<Double> operator) {
+      checkNotNull(operator);
+      this.number = null;
+      this.unaryOperator = operator;
+      this.binaryOperator = null;
+    }
+
+    double eq(double a) {
+      if (unaryOperator != null) {
+        return unaryOperator.apply(a);
+      }
+
+      return binaryOperator.apply(a, number);
     }
   }
 }
