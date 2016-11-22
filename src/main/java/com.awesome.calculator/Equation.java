@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class Equation {
     } catch (NumberFormatException e) {
       // If the result is not a number, it means that some part of the equation could not be solved
       // probably because of some unknown operators
-      throw new EquationParserException("Malformed equation " + currentEquationString, equationString);
+      throw new EquationParserException("Malformed equation", equationString);
     }
   }
 
@@ -114,4 +115,25 @@ public class Equation {
         searchAndCompute(newEquationString, operators) : newEquationString;
   }
 
+  public static void main(String... args) {
+    Equation instance = new Equation()
+        // register a synonym for the multiplication
+        .registerOperator(new Operator("x", (a, b) -> a * b), 100);
+
+    Scanner terminalInput = new Scanner(System.in);
+    while (true) {
+      System.out.println("Enter an equation:");
+      String equationString = terminalInput.nextLine();
+      if ("exit".equals(equationString)) {
+        break;
+      }
+
+      try {
+        System.out.println(equationString + " = " + instance.calculate(equationString));
+      } catch (EquationParserException e) {
+        System.out.println(e.getMessage() + ": " + e.getEquation());
+      }
+      System.out.println("---------------------------------------------------------");
+    }
+  }
 }
