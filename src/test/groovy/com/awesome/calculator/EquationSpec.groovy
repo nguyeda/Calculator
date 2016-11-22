@@ -22,7 +22,6 @@ class EquationSpec extends Specification {
     1  | -2 | -1
     -1 | -2 | -3
     0  | 0  | 0
-    //1.1 | 2.2 | 3.3
   }
 
   def "chain add numbers"() {
@@ -93,5 +92,10 @@ class EquationSpec extends Specification {
   def "chain divide numbers"() {
     expect:
     new Equation(100).divide(10).divide(2).divide(5).eq() == 1
+  }
+
+  def "custom operator: modulo"() {
+    expect:
+    new Equation(17).operation(6, { a, b -> a % b }).eq() == 5
   }
 }

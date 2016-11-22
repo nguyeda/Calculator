@@ -10,10 +10,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * <p>
  * This class offers 4 methods for basic operations
  * <ul>
- * <li>{@link Equation#add(float)}</li>
- * <li>{@link Equation#minus(float)}</li>
- * <li>{@link Equation#multiply(float)} </li>
- * <li>{@link Equation#divide(float)} </li>
+ * <li>{@link Equation#add(double)}</li>
+ * <li>{@link Equation#minus(double)}</li>
+ * <li>{@link Equation#multiply(double)} </li>
+ * <li>{@link Equation#divide(double)} </li>
  * </ul>
  * <p>
  * Usage:
@@ -28,10 +28,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * </pre>
  */
 public class Equation {
-  private final float initialNumber;
+  private final double initialNumber;
   private final List<Operation> operations = new ArrayList<>();
 
-  public Equation(float initialNumber) {
+  public Equation(double initialNumber) {
     this.initialNumber = initialNumber;
   }
 
@@ -41,7 +41,7 @@ public class Equation {
    * @param number the number to add
    * @return the current {@link Equation} instance
    */
-  public Equation add(float number) {
+  public Equation add(double number) {
     return operation(number, (a, b) -> a + b);
   }
 
@@ -51,7 +51,7 @@ public class Equation {
    * @param number the number to subtract
    * @return the current {@link Equation} instance
    */
-  public Equation minus(float number) {
+  public Equation minus(double number) {
     return operation(number, (a, b) -> a - b);
   }
 
@@ -61,7 +61,7 @@ public class Equation {
    * @param number the number to multiply
    * @return the current {@link Equation} instance
    */
-  public Equation multiply(float number) {
+  public Equation multiply(double number) {
     return operation(number, (a, b) -> a * b);
   }
 
@@ -71,7 +71,7 @@ public class Equation {
    * @param number the number to divide
    * @return the current {@link Equation} instance
    */
-  public Equation divide(float number) {
+  public Equation divide(double number) {
     if (number == 0) {
       throw new RuntimeException("Attempt to divide by 0");
     }
@@ -85,7 +85,7 @@ public class Equation {
    * @param operand the operation to execute
    * @return the current {@link Equation} instance
    */
-  public Equation operation(float number, Operand<Float> operand) {
+  public Equation operation(double number, Operand<Double> operand) {
     checkNotNull(operand);
     operations.add(new Operation(number, operand));
     return this;
@@ -102,15 +102,15 @@ public class Equation {
    *
    * @return the equation result
    */
-  public float eq() {
-    float result = initialNumber;
+  public double eq() {
+    double result = initialNumber;
     for (Operation operation : operations) {
       result = operation.eq(result);
     }
     return result;
   }
 
-  public float getInitialNumber() {
+  public double getInitialNumber() {
     return initialNumber;
   }
 
@@ -119,15 +119,15 @@ public class Equation {
   }
 
   class Operation {
-    private float number = 0;
-    private Operand<Float> operand;
+    private double number = 0;
+    private Operand<Double> operand;
 
-    public Operation(float number, Operand<Float> operand) {
+    public Operation(double number, Operand<Double> operand) {
       this.number = number;
       this.operand = operand;
     }
 
-    public float eq(float a) {
+    public double eq(double a) {
       return operand.apply(a, number);
     }
   }
