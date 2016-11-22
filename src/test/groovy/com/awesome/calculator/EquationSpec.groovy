@@ -12,6 +12,7 @@ class EquationSpec extends Specification {
 
     where:
     equation            | expected
+    '6'                 | 6
     '0 + 0'             | 0
     '1 + 0'             | 1
     '1 + 2'             | 3
@@ -54,5 +55,12 @@ class EquationSpec extends Specification {
     equation      | expected
     '17 modulo 3' | 2
     '17modulo3'   | 2
+  }
+
+  def "clean all operators"() {
+    expect:
+    new Equation()
+        .clearOperators()
+        .calculate('1') == 1
   }
 }
