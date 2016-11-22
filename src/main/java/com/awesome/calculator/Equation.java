@@ -1,15 +1,20 @@
 package com.awesome.calculator;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class Equation {
 
   private final Map<String, Operand<Float>> operands = ImmutableMap.of(
-      "add", (a, b) -> a + b
+      "add", (a, b) -> a + b,
+      "minus", (a, b) -> a - b
   );
 
   private final List<Operation> operations = new ArrayList<>();
@@ -23,7 +28,16 @@ public class Equation {
   }
 
   public Equation add(float number) {
-    operations.add(new Operation(number, operands.get("add")));
+    return addOperation(number, operands.get("add"));
+  }
+
+  public Equation minus(float number) {
+    return addOperation(number, operands.get("minus"));
+  }
+
+  public Equation addOperation(float number, Operand<Float> operand) {
+    checkNotNull(operand);
+    operations.add(new Operation(number, operand));
     return this;
   }
 
