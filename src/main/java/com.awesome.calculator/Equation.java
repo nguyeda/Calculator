@@ -1,35 +1,46 @@
 package com.awesome.calculator;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Equation {
-  private LinkedList<Operator> operators = new LinkedList<>();
+  private Multimap<Integer, Operator> operatorsByWeight = LinkedListMultimap.create();
 
   public Equation() {
-    registerOperator(new Operator("+", 50, (a, b) -> a + b));
-    registerOperator(new Operator("-", 50, (a, b) -> a - b));
-    registerOperator(new Operator("*", 100, (a, b) -> a * b));
+    registerOperator(new Operator("+", (a, b) -> a + b), 50);
+    registerOperator(new Operator("-", (a, b) -> a - b), 50);
+    registerOperator(new Operator("*", (a, b) -> a * b), 100);
+    registerOperator(new Operator("/", (a, b) -> a / b), 100);
   }
 
-  public Equation registerOperator(Operator operator) {
-    operators.add(operator);
+  public Equation registerOperator(Operator operator, int weight) {
+    operatorsByWeight.get(weight).add(operator); // TODO check if the operator does not already exists
     return this;
   }
 
   public double calculate(final String equationString) {
     String currentEquationString = equationString;
-    currentEquationString = searchAndCompute(currentEquationString, operators);
+
+    List<Integer> weights = new ArrayList<>(operatorsByWeight.keySet());
+    Collections.sort(weights);
+    Collections.reverse(weights);
+    for (int weight : weights) {
+      currentEquationString = searchAndCompute(currentEquationString, operatorsByWeight.get(weight));
+    }
 
     return Double.parseDouble(currentEquationString);
   }
 
-  private String searchAndCompute(final String currentEquationString, final List<Operator> operators) {
+  private String searchAndCompute(final String currentEquationString, final Collection<Operator> operators) {
     String regex = Joiner.on("|").join(operators.stream().map(Operator::getPattern).collect(Collectors.toList()));
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(currentEquationString);
