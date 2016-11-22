@@ -8,13 +8,13 @@ class EquationSpec extends Specification {
 
   def "noop"() {
     expect:
-    Equation.of(1).eq() == 1
+    new Equation(1).eq() == 1
   }
 
   @Unroll
   def "add two numbers: #a + #b = #expected"() {
     expect:
-    Equation.of(a).add(b).eq() == expected
+    new Equation(a).add(b).eq() == expected
 
     where:
     a  | b  | expected
@@ -27,13 +27,13 @@ class EquationSpec extends Specification {
 
   def "chain add numbers"() {
     expect:
-    Equation.of(1).add(2).add(3).add(4).eq() == 10
+    new Equation(1).add(2).add(3).add(4).eq() == 10
   }
 
   @Unroll
   def "substract two numbers: #a - #b = #expected"() {
     expect:
-    Equation.of(a).minus(b).eq() == expected
+    new Equation(a).minus(b).eq() == expected
 
     where:
     a  | b  | expected
@@ -46,13 +46,13 @@ class EquationSpec extends Specification {
 
   def "chain substract numbers"() {
     expect:
-    Equation.of(15).minus(2).minus(3).minus(4).eq() == 6
+    new Equation(15).minus(2).minus(3).minus(4).eq() == 6
   }
 
   @Unroll
   def "multiply two numbers: #a * #b = #expected"() {
     expect:
-    Equation.of(a).multiply(b).eq() == expected
+    new Equation(a).multiply(b).eq() == expected
 
     where:
     a  | b  | expected
@@ -65,13 +65,13 @@ class EquationSpec extends Specification {
 
   def "chain multiply numbers"() {
     expect:
-    Equation.of(3).multiply(2).multiply(4).multiply(10).eq() == 240
+    new Equation(3).multiply(2).multiply(4).multiply(10).eq() == 240
   }
 
   @Unroll
   def "divide two numbers: #a / #b = #expected"() {
     expect:
-    Equation.of(a).divide(b).eq() == expected
+    new Equation(a).divide(b).eq() == expected
 
     where:
     a  | b  | expected
@@ -83,7 +83,7 @@ class EquationSpec extends Specification {
 
   def "attempt to divide by 0 throws an exception"() {
     when:
-    Equation.of(100).divide(10).divide(0)
+    new Equation(100).divide(10).divide(0)
 
     then:
     def exception = thrown(RuntimeException)
@@ -92,6 +92,6 @@ class EquationSpec extends Specification {
 
   def "chain divide numbers"() {
     expect:
-    Equation.of(100).divide(10).divide(2).divide(5).eq() == 1
+    new Equation(100).divide(10).divide(2).divide(5).eq() == 1
   }
 }

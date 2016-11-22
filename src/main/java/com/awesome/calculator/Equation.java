@@ -9,12 +9,8 @@ public class Equation {
   private final float initialNumber;
   private final List<Operation> operations = new ArrayList<>();
 
-  private Equation(float initialNumber) {
+  public Equation(float initialNumber) {
     this.initialNumber = initialNumber;
-  }
-
-  public static final Equation of(float number) {
-    return new Equation(number);
   }
 
   public Equation add(float number) {
@@ -50,7 +46,15 @@ public class Equation {
     return result;
   }
 
-  private class Operation {
+  public float getInitialNumber() {
+    return initialNumber;
+  }
+
+  public List<Operation> getOperations() {
+    return operations;
+  }
+
+  class Operation {
     private float number = 0;
     private Operand<Float> operand;
 
