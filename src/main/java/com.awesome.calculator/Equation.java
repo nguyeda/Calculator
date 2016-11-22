@@ -12,8 +12,9 @@ public class Equation {
   private LinkedList<Operator> operators = new LinkedList<>();
 
   public Equation() {
-    registerOperator(new Operator("+", (a, b) -> a + b));
-    registerOperator(new Operator("-", (a, b) -> a - b));
+    registerOperator(new Operator("+", 50, (a, b) -> a + b));
+    registerOperator(new Operator("-", 50, (a, b) -> a - b));
+    registerOperator(new Operator("*", 100, (a, b) -> a * b));
   }
 
   public Equation registerOperator(Operator operator) {
