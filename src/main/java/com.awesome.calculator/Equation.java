@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -123,27 +122,5 @@ public class Equation {
     // run again if there is some other matches for this operator, otherwise, return the new equation string
     return pattern.matcher(newEquationString).matches() ?
         searchAndCompute(newEquationString, operators) : newEquationString;
-  }
-
-  public static void main(String... args) {
-    Equation instance = new Equation()
-        // register a synonym for the multiplication
-        .registerOperator(new Operator("x", (a, b) -> a * b), 100);
-
-    Scanner terminalInput = new Scanner(System.in);
-    while (true) {
-      System.out.println("Enter an equation:");
-      String equationString = terminalInput.nextLine();
-      if ("exit".equals(equationString)) {
-        break;
-      }
-
-      try {
-        System.out.println(equationString + " = " + instance.calculate(equationString));
-      } catch (EquationParserException e) {
-        System.out.println(e.getMessage() + ": " + e.getEquation());
-      }
-      System.out.println("---------------------------------------------------------");
-    }
   }
 }
