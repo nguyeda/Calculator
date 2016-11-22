@@ -15,7 +15,8 @@ public class Equation {
   private final Map<String, Operand<Float>> operands = ImmutableMap.of(
       "add", (a, b) -> a + b,
       "minus", (a, b) -> a - b,
-      "multiply", (a, b) -> a * b
+      "multiply", (a, b) -> a * b,
+      "divide", (a, b) -> a / b
   );
 
   private final List<Operation> operations = new ArrayList<>();
@@ -38,6 +39,13 @@ public class Equation {
 
   public Equation multiply(float number) {
     return addOperation(number, operands.get("multiply"));
+  }
+
+  public Equation divide(float number) {
+    if (number == 0) {
+      throw new RuntimeException("Attempt to divide by 0");
+    }
+    return addOperation(number, operands.get("divide"));
   }
 
   public Equation addOperation(float number, Operand<Float> operand) {

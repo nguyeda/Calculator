@@ -67,4 +67,31 @@ class EquationSpec extends Specification {
     expect:
     Equation.of(3).multiply(2).multiply(4).multiply(10).eq() == 240
   }
+
+  @Unroll
+  def "divide two numbers: #a / #b = #expected"() {
+    expect:
+    Equation.of(a).divide(b).eq() == expected
+
+    where:
+    a  | b  | expected
+    0  | 1  | 0
+    3  | 1  | 3
+    3  | -3 | -1
+    -6 | -2 | 3
+  }
+
+  def "attempt to divide by 0 throws an exception"() {
+    when:
+    Equation.of(100).divide(10).divide(0)
+
+    then:
+    def exception = thrown(RuntimeException)
+    exception.message == 'Attempt to divide by 0'
+  }
+
+  def "chain divide numbers"() {
+    expect:
+    Equation.of(100).divide(10).divide(2).divide(5).eq() == 1
+  }
 }
