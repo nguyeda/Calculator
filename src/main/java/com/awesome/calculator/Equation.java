@@ -6,11 +6,11 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Equation {
-
+  private final float initialNumber;
   private final List<Operation> operations = new ArrayList<>();
 
-  private Equation(float number) {
-    operations.add(new Operation(number, (a, b) -> a + b));
+  private Equation(float initialNumber) {
+    this.initialNumber = initialNumber;
   }
 
   public static final Equation of(float number) {
@@ -43,7 +43,7 @@ public class Equation {
   }
 
   public float eq() {
-    float result = 0;
+    float result = initialNumber;
     for (Operation operation : operations) {
       result = operation.eq(result);
     }
