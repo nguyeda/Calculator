@@ -10,17 +10,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Equation {
 
-  private final Map<String, Operand<Float>> operands = ImmutableMap.of(
-      "add", (a, b) -> a + b,
-      "minus", (a, b) -> a - b,
-      "multiply", (a, b) -> a * b,
-      "divide", (a, b) -> a / b
-  );
-
   private final List<Operation> operations = new ArrayList<>();
 
   private Equation(float number) {
-    operations.add(new Operation(number, operands.get("add")));
+    operations.add(new Operation(number, (a, b) -> a + b));
   }
 
   public static final Equation of(float number) {
@@ -28,22 +21,22 @@ public class Equation {
   }
 
   public Equation add(float number) {
-    return operation(number, operands.get("add"));
+    return operation(number, (a, b) -> a + b);
   }
 
   public Equation minus(float number) {
-    return operation(number, operands.get("minus"));
+    return operation(number, (a, b) -> a - b);
   }
 
   public Equation multiply(float number) {
-    return operation(number, operands.get("multiply"));
+    return operation(number, (a, b) -> a * b);
   }
 
   public Equation divide(float number) {
     if (number == 0) {
       throw new RuntimeException("Attempt to divide by 0");
     }
-    return operation(number, operands.get("divide"));
+    return operation(number, (a, b) -> a / b);
   }
 
   public Equation operation(float number, Operand<Float> operand) {
@@ -64,7 +57,7 @@ public class Equation {
     private float number = 0;
     private Operand<Float> operand;
 
-    public Operation(float number, Operand operand) {
+    public Operation(float number, Operand<Float> operand) {
       this.number = number;
       this.operand = operand;
     }
