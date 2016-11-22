@@ -1,7 +1,5 @@
 package com.awesome.calculator;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
@@ -30,25 +28,25 @@ public class Equation {
   }
 
   public Equation add(float number) {
-    return addOperation(number, operands.get("add"));
+    return operation(number, operands.get("add"));
   }
 
   public Equation minus(float number) {
-    return addOperation(number, operands.get("minus"));
+    return operation(number, operands.get("minus"));
   }
 
   public Equation multiply(float number) {
-    return addOperation(number, operands.get("multiply"));
+    return operation(number, operands.get("multiply"));
   }
 
   public Equation divide(float number) {
     if (number == 0) {
       throw new RuntimeException("Attempt to divide by 0");
     }
-    return addOperation(number, operands.get("divide"));
+    return operation(number, operands.get("divide"));
   }
 
-  public Equation addOperation(float number, Operand<Float> operand) {
+  public Equation operation(float number, Operand<Float> operand) {
     checkNotNull(operand);
     operations.add(new Operation(number, operand));
     return this;
