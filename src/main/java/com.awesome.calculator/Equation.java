@@ -63,7 +63,13 @@ public class Equation {
       currentEquationString = searchAndCompute(currentEquationString, operatorsByWeight.get(weight));
     }
 
-    return Double.parseDouble(currentEquationString);
+    try {
+      return Double.parseDouble(currentEquationString);
+    } catch (NumberFormatException e) {
+      // If the result is not a number, it means that some part of the equation could not be solved
+      // probably because of some unknown operators
+      throw new EquationParserException("Malformed equation " + currentEquationString, equationString);
+    }
   }
 
   private String searchAndCompute(final String currentEquationString, final Collection<Operator> operators) {

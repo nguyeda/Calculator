@@ -63,4 +63,22 @@ class EquationSpec extends Specification {
         .clearOperators()
         .calculate('1') == 1
   }
+
+  def "throws an exception when equation is not valid"() {
+    given:
+    def equation = new Equation()
+    def equationString = '1 + 2 unknownOp 9 - 1'
+
+    when: 'a calculation is made with an unknown operator'
+    equation.calculate(equationString)
+
+    then: 'an exception is thrown'
+    thrown(EquationParserException)
+
+    when: 'the operator gets registered'
+    equation.registerOperator(new Operator('unknownOp', { a, b -> a + b }), 50)
+
+    then: 'the operation succeed'
+    equation.calculate(equationString) == 11
+  }
 }
