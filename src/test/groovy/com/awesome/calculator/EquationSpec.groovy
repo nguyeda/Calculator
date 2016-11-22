@@ -6,7 +6,7 @@ import spock.lang.Unroll
 class EquationSpec extends Specification {
 
   @Unroll
-  def "#equation = #expected"() {
+  def "default operators: #equation = #expected"() {
     expect:
     new Equation().calculate(equation) == expected
 
@@ -38,5 +38,21 @@ class EquationSpec extends Specification {
     '3 * 4 / 2'         | 6
     '4/2 * 3'           | 6
     '1 + 3 * 2 - 8 / 4' | 5
+  }
+
+  @Unroll
+  def "custom operator modulo: #equation = #expected"() {
+    given:
+    def operator = new Operator('modulo', { a, b -> a % b })
+
+    expect:
+    new Equation()
+        .registerOperator(operator, 100)
+        .calculate(equation) == expected
+
+    where:
+    equation      | expected
+    '17 modulo 3' | 2
+    '17modulo3'   | 2
   }
 }
