@@ -9,9 +9,9 @@ public class Operator {
   private final OperatorFunction function;
 
   public Operator(String sign, OperatorFunction function) {
-    this.sign = "+";
+    this.sign = sign;
     this.function = function;
-    this.pattern = Pattern.compile("((\\d+\\.?\\d*)\\s*(" + Pattern.quote(sign) + ")\\s*(\\d+\\.?\\d*))+");
+    this.pattern = Pattern.compile("((-?\\d+\\.?\\d*)\\s*(" + Pattern.quote(sign) + ")\\s*(-?\\d+\\.?\\d*))+");
   }
 
   public String getSign() {

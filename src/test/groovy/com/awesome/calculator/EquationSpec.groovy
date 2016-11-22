@@ -14,6 +14,8 @@ class EquationSpec extends Specification {
     equation        | expected
     '0 + 0'         | 0
     '1 + 2'         | 3
+    '-6 + 2'        | -4
+    '-6 + -2'       | -8
     '1 + 2 + 3 + 4' | 10
   }
 }
