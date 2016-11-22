@@ -17,5 +17,8 @@ class EquationSpec extends Specification {
     '-6 + 2'        | -4
     '-6 + -2'       | -8
     '1 + 2 + 3 + 4' | 10
+    '3-1'           | 2
+    '3-1 + 4'       | 6
+    '3 - 1 - 4'     | -2
   }
 }

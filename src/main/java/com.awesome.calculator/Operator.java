@@ -5,20 +5,20 @@ import java.util.regex.Pattern;
 public class Operator {
 
   private final String sign;
-  private final Pattern pattern;
+  private final String pattern;
   private final OperatorFunction function;
 
   public Operator(String sign, OperatorFunction function) {
     this.sign = sign;
     this.function = function;
-    this.pattern = Pattern.compile("((-?\\d+\\.?\\d*)\\s*(" + Pattern.quote(sign) + ")\\s*(-?\\d+\\.?\\d*))+");
+    this.pattern = "((-?\\d+\\.?\\d*)\\s*(" + Pattern.quote(sign) + ")\\s*(-?\\d+\\.?\\d*))+";
   }
 
   public String getSign() {
     return sign;
   }
 
-  public Pattern getPattern() {
+  public String getPattern() {
     return pattern;
   }
 
