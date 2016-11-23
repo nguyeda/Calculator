@@ -81,4 +81,16 @@ class EquationParserSpec extends Specification {
     then: 'the operation succeed'
     equation.calculate(equationString) == 11
   }
+
+  def "long equation"() {
+    given:
+    def n = 645 // more than that causes a stackoverflow exception
+    def expected = n * (n + 1) / 2
+
+    when: "we generate an equation containing the sum of the n first integer"
+    def equation = (1..n).join(' + ')
+
+    then: "the equation is calculated"
+    new EquationParser().calculate(equation) == expected
+  }
 }

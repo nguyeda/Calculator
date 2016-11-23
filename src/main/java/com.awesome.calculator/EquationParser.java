@@ -70,7 +70,16 @@ public class EquationParser {
     List<Integer> weights = new ArrayList<>(operatorsByWeight.keySet());
     Collections.sort(weights, Comparator.<Integer>naturalOrder().reversed());
     for (int weight : weights) {
-      currentEquationString = searchAndCompute(currentEquationString, operatorsByWeight.get(weight));
+      Collection<Operator> operators = operatorsByWeight.get(weight);
+
+      // Combine all operator patterns into one big, this will allow us to process operation with the same
+      // weight from left to right
+      String regex = Joiner.on("|").join(operators.stream().map(Operator::getPattern).collect(Collectors.toList()));
+      Pattern pattern = Pattern.compile(regex);
+
+      do {
+        currentEquationString = searchAndCompute(currentEquationString, pattern, operators);
+      } while (pattern.matcher(currentEquationString).matches());
     }
 
     try {
@@ -82,15 +91,11 @@ public class EquationParser {
     }
   }
 
-  private String searchAndCompute(final String currentEquationString, final Collection<Operator> operators) {
+  private String searchAndCompute(final String currentEquationString, final Pattern pattern, final Collection<Operator> operators) {
+
     // Build a map of operators by sign, this is done for each computation in case some new operators are created or
     // removed between two calls
     Map<String, Operator> operatorBySign = operators.stream().collect(Collectors.toMap(Operator::getSign, identity()));
-
-    // Combine all operator patterns into one big, this will allow us to process operation with the same
-    // weight from left to right
-    String regex = Joiner.on("|").join(operators.stream().map(Operator::getPattern).collect(Collectors.toList()));
-    Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(currentEquationString);
 
     StringBuffer sb = new StringBuffer();
@@ -117,10 +122,6 @@ public class EquationParser {
     }
 
     matcher.appendTail(sb);
-    String newEquationString = sb.toString();
-
-    // run again if there is some other matches for this operator, otherwise, return the new equation string
-    return pattern.matcher(newEquationString).matches() ?
-        searchAndCompute(newEquationString, operators) : newEquationString;
+    return sb.toString();
   }
 }

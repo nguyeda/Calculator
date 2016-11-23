@@ -1,5 +1,6 @@
 package com.awesome.calculator;
 
+import java.util.Date;
 import java.util.Scanner;
 
 public class Calculator {
@@ -17,7 +18,11 @@ public class Calculator {
       }
 
       try {
-        System.out.println(equationString + " = " + instance.calculate(equationString));
+        long start = new Date().getTime();
+        double res = instance.calculate(equationString);
+        long duration = new Date().getTime() - start;
+
+        System.out.println(equationString + " = " + instance.calculate(equationString) + " (took " + duration + "ms)");
       } catch (EquationParserException e) {
         System.out.println(e.getMessage() + ": " + e.getEquation());
       }
